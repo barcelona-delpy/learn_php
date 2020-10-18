@@ -1,0 +1,19 @@
+1.operators <=>
+There is also the special operator
+<=> (spaceship) that compares both the operands and returns an integer instead of a
+Boolean. When comparing a with b, the result will be less than 0 if a is less than b, 0 if
+a equals b, and greater than 0 if a is greater than b.
+
+2.equals & identical
+equals == (type juggling)
+identical === (without type juggling)
+
+
+
+
+
+
+
+
+
+
