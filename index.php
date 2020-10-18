@@ -24,11 +24,11 @@ if (isset($_GET['title'])) {
 ?>
 <ul>
 <?php foreach ($books as $book): ?>
-<li>
-<a href="?title=<?php echo $book['title']; ?>">
-<?php echo printableTitle($book); ?>
-</a>
-</li>
+	<li>
+		<a href="?title=<?php echo $book['title']; ?>">
+		<?php echo printableTitle($book); ?>
+		</a>
+	</li>
 <?php endforeach; ?>
 </ul>
 </body>
