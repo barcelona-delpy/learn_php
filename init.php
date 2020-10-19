@@ -2,10 +2,9 @@
 
 use Bookstore\Domain\Book;
 use Bookstore\Domain\Customer;
+use Bookstore\Domain\Payer;
 use Bookstore\Domain\Customer\Basic;
 use Bookstore\Domain\Customer\Premium;
-
-
 
 
 function autoloader($classname) {
@@ -13,6 +12,7 @@ function autoloader($classname) {
 	$classname = substr($classname, $lastSlash);
 	$directory = str_replace('\\', '/', $classname);
 	$filename = __DIR__ . '/src/' . $directory . '.php';
+	//echo "$filename";
 	require_once($filename);
 }
 
@@ -40,6 +40,21 @@ var_dump(checkIfValid($customer1, [$book1])); // ok
 $customer2 = new Premium(7, 'James', 'Bond', 'james@bond.com');
 var_dump(checkIfValid($customer2, [$book1])); // fails
 
+function processPayment(Payer $payer, float $amount) {
+	if($payer->isExtentOfTaxes()){
+		echo "what a lucky one...";
+	}else{
+		$amount *= 1.16;
+	}
+
+	$payer->pay($amount);
+}
+
+processPayment($customer1, 100);
+processPayment($customer2, 1000);
+
+var_dump($customer1 instanceof Payer);
+var_dump($customer2 instanceof Payer);
 
 ?>
 
