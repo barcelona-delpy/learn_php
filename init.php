@@ -7,7 +7,7 @@ use Bookstore\Domain\Customer\Basic;
 use Bookstore\Domain\Customer\Premium;
 use Bookstore\Exceptions\InvalidIdException;
 use Bookstore\Exceptions\ExceededMaxAllowedException;
-
+use Bookstore\Domain\Customer\CustomerFactory;
 
 function autoloader($classname) {
 	$lastSlash = strpos($classname, '\\') + 1;
@@ -87,11 +87,12 @@ function createBasicCustomer($id){
 	}
 }
 
-createBasicCustomer(1);
-createBasicCustomer(-1);
-createBasicCustomer(55);
+//createBasicCustomer(1);
+//createBasicCustomer(-1);
+//createBasicCustomer(55);
 
-
+CustomerFactory::factory('basic', 2, 'mary', 'poppins', 'mary@poppins.com');
+CustomerFactory::factory('premium', null, 'james', 'bond', 'james@bond.com');
 
 ?>
 
