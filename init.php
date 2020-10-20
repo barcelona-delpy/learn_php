@@ -95,9 +95,89 @@ function createBasicCustomer($id){
 //CustomerFactory::factory('basic', 2, 'mary', 'poppins', 'mary@poppins.com');
 //CustomerFactory::factory('premium', null, 'james', 'bond', 'james@bond.com');
 
-$config = Config::getInstance();
-$dbConfig = $config->get('db');
-var_dump($dbConfig);
+//$config = Config::getInstance();
+//$dbConfig = $config->get('db');
+//var_dump($dbConfig);
+
+$dbConfig = Config::getInstance()->get('db');
+//var_dump($dbConfig);
+
+/*
+PDO is abbreviation of "PHP Data Objects"
+*/
+$db = new PDO(
+	'mysql:host=127.0.0.1;dbname=bookstore', /*DSN->data source name*/
+	$dbConfig['user'],
+	$dbConfig['password']
+);
+
+$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+/*
+$rows = $db->query('select * from book order by title');
+foreach($rows as $row){
+	var_dump($row);
+}
+*/
+
+/*
+<<<SQL .... SQL; is a heredoc
+The benefit of this is the ability to write strings in multiple
+lines with tabulations or any other blank space,and PHP will respect it.
+*/
+
+/*
+$query = <<<SQL
+insert into book(isbn, title, author,price)
+values("9788187981954", "Peter pan", "J. M. Barrie", 2.34)
+SQL;
+
+$result = $db->exec($query);
+if($result){
+	echo "exec $query success.\n";
+}else{
+	$error_str = $db->errorInfo()[2];
+	echo "exec $query failed.error_str:$error_str \n";
+}
+*/
+
+
+$query = 'select * from book where author = :author';
+$statement = $db->prepare($query);
+$statement->bindValue('author', 'George Orwell');
+if($statement->execute()){
+	$rows = $statement->fetchAll();
+	var_dump($rows);
+
+	echo "\n\n";
+	foreach($rows as $row){
+		foreach($row as $key => $value){
+			echo "$key ===> $value.\n";
+		}
+	
+		echo "\n";
+	}
+}
+
+
+$query = <<<SQL
+insert into book(isbn, title, author, price) 
+values(:isbn, :title, :author, :price)
+SQL;
+
+$statement = $db->prepare($query);
+$params = [
+	'isbn' => '9781412108614',
+	'title' => 'Iliad',
+	'author' => 'Homer',
+	'price' => 9.25
+];
+
+$statement->execute($params);
+echo $db->lastInsertId(); // 8
+
+
+
 
 
 ?>

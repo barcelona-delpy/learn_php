@@ -1,7 +1,7 @@
 {
 	"db": {
-		"user": "Luke",
-		"password": "Skywalker"
+		"user": "root",
+		"password": "123456"
 	}
 }
 
